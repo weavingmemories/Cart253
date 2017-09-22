@@ -1,4 +1,5 @@
 final int CIRCLE_SPEED = 7; // Integer variable that signifies the speed of the circle is set to 7. Can't be changed.
+int STROKE_WEIGHT = 5; // Integer variable that signifies the stroke weight of the circle, is set to 5.
 final color NO_CLICK_FILL_COLOR = color(250, 100, 100); // Color variable that signifies the color of the circle when the distance between mouse and circle is greater than 25 (salmon/darker pink). Can't be changed.
 final color CLICK_FILL_COLOR = color(100, 100, 250); // Color variable that signifies the color of the circle when the distance between mouse and circle is less than 25 (lightish blue with a hint of purple). Can't be changed.
 final color BACKGROUND_COLOR = color(250, 150, 150); // Color variable that signifies the background color (light pink). Can't be changed.
@@ -22,12 +23,28 @@ void setup() {
 }
 
 void draw() {
+  println(STROKE_WEIGHT); // Printing the variable stored in STROKE_WEIGHT to keep an eye on it.
+  if (STROKE_WEIGHT >= 200) { // If the STROKE_WEIGHT variable is greater than or equal to 200-
+    STROKE_WEIGHT = 200; // Keep at at 200. This effectively doesn't let it get higher than 200.
+  }
+  if (STROKE_WEIGHT <= 0) { // If the STROKE_WEIGHT variable is less than or equal to 0-
+    STROKE_WEIGHT = 0; // Keep it at 0. This effectively doesn't let it get lower than 0.
+  }
+  strokeWeight(abs(STROKE_WEIGHT)); // CHANGED: Sets the stroke weight (thickness) to our previously defined variable STROKE_WEIGHT
     if (dist(mouseX, mouseY, circleX, circleY) < CIRCLE_SIZE/2) { // If the distance between the mouse's position on x-axis and y-axis and the circle's position on the x-axis and y-axis is less than the circle's size divided by two (25)
     fill(CLICK_FILL_COLOR); // Fill the circle with the color stored in CLICK_FILL_COLOR (lightish blue with a hint of purple).
   }
   else { // If this condition is not true,
     fill(NO_CLICK_FILL_COLOR); // Fill the circle with the color stored in NO_CLICK_FILL_COLOR (which would keep it as salmon/darker pink).
   }
+  
+    if (mouseX > 320 || mouseY > 240) { // If the mouse's position on the X-axis is greater than 320, OR if the mouse's position on the Y-axis is greater than 240,
+      STROKE_WEIGHT++; // Increase the value stored in STROKE_WEIGHT by 1 per frame.
+    }
+    else { // Otherwise,
+      STROKE_WEIGHT--; // Decrease the value stored in STROKE_WEIGHT by 1 per frame.
+    }
+    
   ellipse(circleX, circleY, CIRCLE_SIZE, CIRCLE_SIZE); // Draw an ellipse placed at the previously stated circleX and circleY coordinates (center of the screen), making it the size of the value stored within CIRCLE_SIZE (50) making it 50 pixels by 50 pixels.
   circleX += circleVX; // The circleX variable is increased by the circleVX variable (which is set to CIRCLE_SPEED which is 7).
   circleY += circleVY; // The circleY variable is increased by the circleVY variable (which is set to CIRCLE_SPEED which is 7).
