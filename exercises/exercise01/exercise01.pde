@@ -61,3 +61,9 @@ void draw() {
 void mousePressed() { // When the mouse is pressed down,
   background(BACKGROUND_COLOR); // Change the background to the value stored in BACKGROUND_COLOR (light pink). Likely clears the screen.
 }
+
+void keyPressed() { // CHANGED: When any key is pressed, 
+    fill(random(255), random(255), random(255)); // CHANGED: The color of the text will be completely random across RGB values
+    textSize(random(100)); // CHANGED: The text size will be completely random from 0-99
+    text("<3", mouseX, mouseY); // CHANGED: The text will say "<3", and be positioned at the mouse's position on the x and y axis.
+  }
