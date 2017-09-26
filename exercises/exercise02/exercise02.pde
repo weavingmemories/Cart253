@@ -23,7 +23,9 @@ int ballVX;
 int ballVY;
 int ballSpeed = 5;
 int ballSize = 16;
-color ballColor = color(255);
+int fillWhite = 255; // CHANGED: added fillWhite variable for the ball
+int fillAlpha = 255; // CHANGED: added fillAlpha variable for the ball
+color ballColor = color(fillWhite,fillAlpha); // changed the variables so that they can change over time.
 
 // This sets up the screen size to 640 by 480, as well as calls the functions setupPaddle and setupBall.
 
@@ -128,6 +130,8 @@ void handleBallHitPaddle() {
   if (ballOverlapsPaddle()) {
     ballY = paddleY - paddleHeight/2 - ballSize/2;
     ballVY = -ballVY;
+    fillAlpha -=5; // If the ball hits the paddle, it will slowly decrease the opacity of the ball every time, making the game more challenging.
+    ballColor = color(fillWhite,fillAlpha);
   }
 }
 
@@ -148,6 +152,8 @@ void handleBallOffBottom() {
   if (ballOffBottom()) {
     ballX = width/2;
     ballY = height/2;
+    fillAlpha = 255; // CHANGED: Once the ball comes off the screen, it will reset to opaque.
+    ballColor = color(fillWhite,fillAlpha);
   }
 }
 
