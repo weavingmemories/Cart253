@@ -105,6 +105,7 @@ void updateBall() {
   handleBallHitPaddle();
   handleBallHitWall();
   handleBallOffBottom();
+  checkBallLocation();
 }
 
 /* This function draws the paddle once it has been 'updated'. It is a centered rectangle with no border that is filled with the predetermined paddleColor (white).
@@ -182,6 +183,21 @@ void handleBallHitWall() {
   if (ballY - ballSize/2 < 0) {
     ballY = 0 + ballSize/2;
     ballVY = -ballVY;
+  }
+}
+
+void checkBallLocation() { // CHANGED: This function checks the ball's location along the 4 quadrants of the screen, and accordingly changes the paddle color.
+  if (ballX < 320 && ballY < 240) { // Upper Left
+    paddleColor = #00FFFF;
+  }
+  if (ballX < 320 && ballY > 240) { // Lower Left
+    paddleColor = #FF00FF;
+  }
+  if (ballX > 320 && ballY < 240) { // Upper Right
+    paddleColor = #ff8000;
+  }
+  if (ballX > 320 && ballY > 240) { // Lower Right
+    paddleColor = #8300CD;
   }
 }
 
