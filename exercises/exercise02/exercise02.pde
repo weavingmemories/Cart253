@@ -81,6 +81,10 @@ void drawStatic() {
    fill(staticColor);
    rect(x,y,staticSize,staticSize);
   }
+  
+  for(int c = 0; c < 255 ; c++) { // CHANGED: Added a for loop to change the static color every draw loop. It counts up until the color is white, and resets along the loop again on the next color on RGB.
+    staticColor++;
+  }
 }
 
 /* This function adds the paddle's velocity to the paddle's X coordinates, effectively updating its coordinates so it can effectively move across the screen.
