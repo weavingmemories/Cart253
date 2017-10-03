@@ -45,11 +45,15 @@ class Bouncer {
  void handleBounce() { 
    // This checks if the bouncer is either touching the left or right side of the screen.
    if (x - size/2 < 0 || x + size/2 > width) {
-    vx = -vx; 
+    vx = -vx;
+    // CHANGED : Every time the bouncer touches the left or right side of the screen, it randomly teleports it to a random X coordinate within 480.
+    x = floor(random(480));
    }
    // This checks if the bouncer is either touching the top or bottom of the screen.
    if (y - size/2 < 0 || y + size/2 > height) {
      vy = -vy;
+    // CHANGED : Every time the bouncer touches the top or bottom side of the screen, it randomly teleports it to a random Y coordinate within 240.
+    y = floor(random(240));
    }
    
    // This constrains the bouncer's x and y position to the screen's height and width, making sure the edges don't go past it at all.
