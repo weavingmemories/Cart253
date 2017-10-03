@@ -29,3 +29,12 @@ void draw() {
   bouncer.draw();
   bouncer2.draw();
 }
+
+// CHANGED: Checked when the mouse is clicked, and sends the 'true' boolean back to the Bouncer class.
+
+void mouseClicked() {
+  bouncer.isMouseClicked = true;
+  bouncer.handleClick();
+  bouncer2.isMouseClicked = true;
+  bouncer2.handleClick();
+}
