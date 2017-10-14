@@ -13,6 +13,8 @@
 Paddle leftPaddle;
 Paddle rightPaddle;
 Ball ball;
+TextArray depressionText;
+TextArray anxietyText;
 
 // The distance from the edge of the window a paddle should be
 int PADDLE_INSET = 8;
@@ -27,9 +29,10 @@ int staticSizeMin = 1;
 int staticSizeMax = 10;
 color staticColor = color(random(50, 255), 0, 0);
 
-// The score values for each player/paddle
+// The score values for each player/paddle, as well as setting up the win state
 int depressionScore = 0;
 int anxietyScore = 0;
+boolean winState = false;
 
 // setup()
 //
@@ -49,6 +52,10 @@ void setup() {
 
   // Create the ball at the centre of the screen
   ball = new Ball(width/2, height/2);
+  
+  // Create Text instances for later
+  depressionText = new TextArray();
+  anxietyText = new TextArray();
 }
 
 // draw()
@@ -57,6 +64,17 @@ void setup() {
 // if the ball has hit a paddle, and displaying everything.
 
 void draw() {
+  
+  // Before anything, the program checks if the win state has been reached yet.
+  // If so, it will not run the game, but will run a win screen depending on which
+  // score has reached 15 points (the winner).
+  
+  if (winState == true) {
+    
+    
+  }
+  
+  if (winState == false) {
   // Fill the background each frame so we have animation
   background(backgroundColor);
 
@@ -92,6 +110,7 @@ void draw() {
   leftPaddle.display();
   rightPaddle.display();
   ball.display();
+  }
 }
 
 // keyPressed()
@@ -123,6 +142,7 @@ void keyReleased() {
 void checkScore() {
   if (depressionScore > anxietyScore) {
     frameRate(40);
+    depressionText.depressionDisplay();
     if (depressionScore > 5) {
       frameRate(20);
     }
@@ -130,12 +150,21 @@ void checkScore() {
 
 
   if (anxietyScore > depressionScore) {
-    drawStatic(500, 1, 3, floor(random(0,200)));
-    if(anxietyScore > 5) {
+    drawStatic(500, 1, 3, floor(random(0, 200)));
+    anxietyText.anxietyDisplay();
+    if (anxietyScore > 5) {
       drawStatic(250, 5, 15, 200);
     }
   }
+
+  // Checking whether anxiety or depression's scores have hit the "win" point.
+  // If so, activate the boolean winState, which will override the gameplay.
+
+  if (anxietyScore >= 15 || depressionScore >= 15) {
+    winState = true;
+  }
 }
+
 void drawStatic(int _numStatic, int _staticSizeMin, int _staticSizeMax, color _staticColor) {
   for (int i = 0; i < _numStatic; i++) {
     color staticColor = _staticColor;
