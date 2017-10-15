@@ -77,14 +77,14 @@ void draw() {
   if (winState == false) {
   // Fill the background each frame so we have animation
   background(backgroundColor);
+  
+  // Checks the scores and updates the game appropriately by calling its function
+  checkScore();
 
   // Update the paddles and ball by calling their update methods
   leftPaddle.update();
   rightPaddle.update();
   ball.update();
-
-  // Checks the scores and updates the game appropriately by calling its function
-  checkScore();
 
   // Check if the ball has collided with either paddle
   // Added if statements after each collide to make sure the collision isn't overwritten by the second call of ball.collide

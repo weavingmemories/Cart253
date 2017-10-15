@@ -13,7 +13,7 @@ class Ball {
 
   // Default values for speed and size
   int SPEED = 5;
-  int SIZE = 16;
+  int SIZE = 40;
 
   // The location of the ball
   int x;
@@ -23,9 +23,9 @@ class Ball {
   int vx;
   int vy;
 
-  // The colour of the ball
-  color ballColor = color(255);
+  // The image that represents the ball
 
+ PImage image;
 
   /////////////// Constructor ///////////////
 
@@ -43,6 +43,7 @@ class Ball {
     y = _y;
     vx = SPEED;
     vy = SPEED;
+    image = loadImage("brain.png");
   }
 
 
@@ -60,7 +61,7 @@ class Ball {
     y += vy;
 
     // Check if the ball is going off the top of bottom
-    if (y - SIZE/2 < 0 || y + SIZE/2 > height) {
+    if (y - image.width/2 < 0 || y + image.width/2 > height) {
       // If it is, then make it "bounce" by reversing its velocity
       vy = -vy;
     }
@@ -88,7 +89,7 @@ class Ball {
   // or a String (e.g. "ON SCREEN", "OFF LEFT", "OFF RIGHT")
   
   boolean isOffScreen() {
-    return (x + SIZE/2 < 0 || x - SIZE/2 > width);
+    return (x + image.width/2 < 0 || x - image.width/2 > width);
   }
 
   // collide(Paddle paddle)
@@ -99,23 +100,22 @@ class Ball {
 
   void collide(Paddle paddle) {
     // Calculate possible overlaps with the paddle side by side
-    boolean insideLeft = (x + SIZE/2 > paddle.x - paddle.WIDTH/2);
-    boolean insideRight = (x - SIZE/2 < paddle.x + paddle.WIDTH/2);
-    boolean insideTop = (y + SIZE/2 > paddle.y - paddle.HEIGHT/2);
-    boolean insideBottom = (y - SIZE/2 < paddle.y + paddle.HEIGHT/2);
+    boolean insideLeft = (x + image.width/2 > paddle.x - paddle.WIDTH/2);
+    boolean insideRight = (x - image.width/2 < paddle.x + paddle.WIDTH/2);
+    boolean insideTop = (y + image.width/2 > paddle.y - paddle.HEIGHT/2);
+    boolean insideBottom = (y - image.width/2 < paddle.y + paddle.HEIGHT/2);
     
     // Check if the ball overlaps with the paddle
     if (insideLeft && insideRight && insideTop && insideBottom) {
       touchPaddle = true;
-      println("Hit");
-      // If it was moving to the leftp
+      // If it was moving to the left
       if (vx < 0) {
         // Reset its position to align with the right side of the paddle
-        x = paddle.x + paddle.WIDTH/2 + SIZE/2;
+        x = paddle.x + paddle.WIDTH/2 + image.width/2;
         
       } else if (vx > 0) {
         // Reset its position to align with the left side of the paddle
-        x = paddle.x - paddle.WIDTH/2 - SIZE/2;
+        x = paddle.x - paddle.WIDTH/2 - image.width/2;
       }
       // And make it bounce
       vx = -vx;
@@ -132,11 +132,9 @@ class Ball {
 
   void display() {
     // Set up the appearance of the ball (no stroke, a fill, and rectMode as CENTER)
-    noStroke();
-    fill(ballColor);
-    rectMode(CENTER);
-
-    // Draw the ball
-    rect(x, y, SIZE, SIZE);
+    
+    imageMode(CENTER);
+    image(image,x,y,image.width,image.width);
+    
   }
 }
