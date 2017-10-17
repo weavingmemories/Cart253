@@ -118,7 +118,7 @@ class Ball {
         x = paddle.x - paddle.WIDTH/2 - image.width/2;
       }
       // And make it bounce
-      vx = -vx;
+      vx = -vx+floor(random(3));
     } else {
       touchPaddle = false;
     }

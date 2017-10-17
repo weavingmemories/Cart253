@@ -17,9 +17,14 @@ class Paddle {
   int y;
   int vx;
   int vy;
-  
-  // The fill color of the paddle
-  color paddleColor = color(255);
+
+  // The fill color of the paddle. Added fillRed variables to
+  // slowly fade the paddle in certain circumstances.
+  int fillRed = 255;
+  int fillGreen = 255;
+  int fillBlue = 255;
+  int fillAlpha = 255;
+  color paddleColor = color(fillRed, fillGreen, fillBlue, fillAlpha);
 
   // The characters used to make the paddle move up and down, defined in constructor
   char upKey;
@@ -33,13 +38,14 @@ class Paddle {
   // Sets the position and controls based on arguments,
   // starts the velocity at 0
 
-  Paddle(int _x, int _y, int paddleSpeed, char _upKey, char _downKey) {
+  Paddle(int _x, int _y, int paddleSpeed, char _upKey, char _downKey, int _HEIGHT) {
     x = _x;
     y = _y;
     vx = 0;
     vy = 0;
     SPEED = paddleSpeed;
-    
+    HEIGHT = _HEIGHT;
+    paddleColor = color(fillRed, fillGreen, fillBlue, fillAlpha);
 
     upKey = _upKey;
     downKey = _downKey;
@@ -56,54 +62,65 @@ class Paddle {
     // Update position with velocity (to move the paddle)
     x += vx;
     y += vy;
-
     // Constrain the paddle's y position to be in the window
-    y = constrain(y,0 + HEIGHT/2,height - HEIGHT/2);
+    y = constrain(y, 0 + HEIGHT/2, height - HEIGHT/2);
   }
 
   // display()
   //
   // Display the paddle at its location
-  
+
   void display() {
     // Set display properties
     noStroke();
+    if (fadeDepression == true) {
+      println(fillAlpha);
+    fillAlpha--;
+    paddleColor = color(fillRed, fillGreen, fillBlue, fillAlpha);
+    }
     fill(paddleColor);
     rectMode(CENTER);
+    // Draw the paddle as a lot of tiny rectangles, basically 'static'.
     
-    // Draw the paddle as a rectangle
-    rect(x, y, WIDTH, HEIGHT);
-  }
-
-  // keyPressed()
-  //
-  // Called when keyPressed is called in the main program
-  
-  void keyPressed() {
-    // Check if the key is our up key
-    if (key == upKey) {
-      // If so we want a negative y velocity
-      vy = -SPEED;
-    } // Otherwise check if the key is our down key 
-    else if (key == downKey) {
-      // If so we want a positive y velocity
-      vy = SPEED;
+     for (int i = 0; i < 100; i++) {
+      rect(x + floor(random(-WIDTH/2,WIDTH/2)),y + floor(random(-HEIGHT/2,HEIGHT/2)),2,2);
     }
   }
 
-  // keyReleased()
-  //
-  // Called when keyReleased is called in the main program
 
-  void keyReleased() {
-    // Check if the key is our up key and the paddle is moving up
-    if (key == upKey && vy < 0) {
-      // If so it should stop
-      vy = 0;
-    } // Otherwise check if the key is our down key and paddle is moving down 
-    else if (key == downKey && vy > 0) {
-      // If so it should stop
-      vy = 0;
-    }
+// fadeColor()
+//
+// Fades the color slowly to make the paddle harder to see.
+
+// keyPressed()
+//
+// Called when keyPressed is called in the main program
+
+void keyPressed() {
+  // Check if the key is our up key
+  if (key == upKey) {
+    // If so we want a negative y velocity
+    vy = -SPEED;
+  } // Otherwise check if the key is our down key 
+  else if (key == downKey) {
+    // If so we want a positive y velocity
+    vy = SPEED;
   }
 }
+
+// keyReleased()
+//
+// Called when keyReleased is called in the main program
+
+void keyReleased() {
+  // Check if the key is our up key and the paddle is moving up
+  if (key == upKey && vy < 0) {
+    // If so it should stop
+    vy = 0;
+  } // Otherwise check if the key is our down key and paddle is moving down 
+  else if (key == downKey && vy > 0) {
+    // If so it should stop
+    vy = 0;
+  }
+  }
+  }

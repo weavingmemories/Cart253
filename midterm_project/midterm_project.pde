@@ -3,15 +3,11 @@
 // A simple version of Pong using object-oriented programming.
 // Allows to people to bounce a ball back and forth between
 // two paddles that they control.
-//
-// No scoring. (Yet!)
-// No score display. (Yet!)
-// Pretty ugly. (Now!)
-// Only two paddles. (So far!)
 
 // Global variables for the paddles and the ball
 Paddle leftPaddle;
 Paddle rightPaddle;
+Paddle rightPaddle2;
 Ball ball;
 TextArray depressionText;
 TextArray anxietyText;
@@ -28,6 +24,10 @@ int numStatic = 50;
 int staticSizeMin = 1;
 int staticSizeMax = 10;
 color staticColor = color(random(50, 255), 0, 0);
+
+// Setting up booleans for fading the paddles if the Depression score is higher.
+
+boolean fadeDepression = false;
 
 // The score values for each player/paddle, as well as setting up the win state
 int depressionScore = 0;
@@ -47,12 +47,13 @@ void setup() {
   // Also pass through the two keys used to control 'up' and 'down' respectively
   // NOTE: On a mac you can run into trouble if you use keys that create that popup of
   // different accented characters in text editors (so avoid those if you're changing this)
-  leftPaddle = new Paddle(PADDLE_INSET, height/2, 2, 'w', 's');
-  rightPaddle = new Paddle(width - PADDLE_INSET, height/2, -20, 'p', 'l');
+  leftPaddle = new Paddle(PADDLE_INSET, height/2, 2, 'w', 's', 150);
+  rightPaddle = new Paddle(width - PADDLE_INSET, height/2+50, -20, 'p', 'l', 50);
+  rightPaddle2 = new Paddle(width - PADDLE_INSET, height/2-50, -20, 'p', 'l', 50);
 
   // Create the ball at the centre of the screen
   ball = new Ball(width/2, height/2);
-  
+
   // Create Text instances for later
   depressionText = new TextArray();
   anxietyText = new TextArray();
@@ -64,52 +65,74 @@ void setup() {
 // if the ball has hit a paddle, and displaying everything.
 
 void draw() {
-  
+
   // Before anything, the program checks if the win state has been reached yet.
   // If so, it will not run the game, but will run a win screen depending on which
   // score has reached 15 points (the winner).
-  
+
   if (winState == true) {
-    
-    
+
+    // If depression wins, 
+    if (depressionScore == 15) {
+    }
+
+    // If anxiety wins,
+    if (anxietyScore == 15) {
+    }
   }
-  
+
   if (winState == false) {
-  // Fill the background each frame so we have animation
-  background(backgroundColor);
-  
-  // Checks the scores and updates the game appropriately by calling its function
-  checkScore();
 
-  // Update the paddles and ball by calling their update methods
-  leftPaddle.update();
-  rightPaddle.update();
-  ball.update();
+    // Fill the background each frame so we have animation
+    background(backgroundColor);
 
-  // Check if the ball has collided with either paddle
-  // Added if statements after each collide to make sure the collision isn't overwritten by the second call of ball.collide
-  ball.collide(leftPaddle);
-  if (ball.touchPaddle == true) {
-    depressionScore += 1;
-  }
-  ball.collide(rightPaddle);
-  if (ball.touchPaddle == true) {
-    anxietyScore += 1;
-  }
+    // Checks the scores and updates the game appropriately by calling its function
+    checkScore();
 
-  println(depressionScore);
-  println(anxietyScore);
+    // Update the paddles and ball by calling their update methods
+    leftPaddle.update();
+    rightPaddle.update();
+    
+    // This keeps both paddles at a distance from each other and
+    // stops them from overlapping on each other.
+    if (rightPaddle.y >= height/2) {
+    rightPaddle2.y = rightPaddle.y - 200;
+    }
+    if (rightPaddle.y <= height/2) {
+      rightPaddle2.y = rightPaddle.y + 200;
+    }
+    
+    rightPaddle2.update();
+    println(rightPaddle2.y);
+    ball.update();
 
-  // Check if the ball has gone off the screen
-  if (ball.isOffScreen()) {
-    // If it has, reset the ball
-    ball.reset();
-  }
+    // Check if the ball has collided with either paddle
+    // Added if statements after each collide to make sure the collision isn't overwritten by the second call of ball.collide
+    ball.collide(leftPaddle);
+    if (ball.touchPaddle == true) {
+      depressionScore += 1;
+    }
+    ball.collide(rightPaddle);
+    if (ball.touchPaddle == true) {
+      anxietyScore += 1;
+    }
+    
+    ball.collide(rightPaddle2);
+    if (ball.touchPaddle == true) {
+      anxietyScore += 1;
+    }
 
-  // Display the paddles and the ball
-  leftPaddle.display();
-  rightPaddle.display();
-  ball.display();
+    // Check if the ball has gone off the screen
+    if (ball.isOffScreen()) {
+      // If it has, reset the ball
+      ball.reset();
+    }
+
+    // Display the paddles and the ball
+    leftPaddle.display();
+    rightPaddle.display();
+    rightPaddle2.display();
+    ball.display();
   }
 }
 
@@ -123,6 +146,7 @@ void keyPressed() {
   // Just call both paddles' own keyPressed methods
   leftPaddle.keyPressed();
   rightPaddle.keyPressed();
+  rightPaddle2.keyPressed();
 }
 
 // keyReleased()
@@ -133,6 +157,7 @@ void keyReleased() {
   // Call both paddles' keyReleased methods
   leftPaddle.keyReleased();
   rightPaddle.keyReleased();
+  rightPaddle2.keyReleased();
 }
 
 // The score is checked, and instead of displaying it blatantly on the screen,
@@ -140,14 +165,21 @@ void keyReleased() {
 // depression or anxiety is winning.
 
 void checkScore() {
+
+  // If depression is winning, the framerate slows slightly- and text pops up
   if (depressionScore > anxietyScore) {
     frameRate(40);
     depressionText.depressionDisplay();
-    if (depressionScore > 5) {
-      frameRate(20);
-    }
   }
 
+  //
+  if (depressionScore > 5) {
+    frameRate(20);
+  }
+
+  if (depressionScore > 13) {
+    fadeDepression = true;
+  }
 
   if (anxietyScore > depressionScore) {
     drawStatic(500, 1, 3, floor(random(0, 200)));
