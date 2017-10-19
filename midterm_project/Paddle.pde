@@ -29,7 +29,7 @@ class Paddle {
   // The characters used to make the paddle move up and down, defined in constructor
   char upKey;
   char downKey;
-  
+
   // This variable tracks the amount of 'static' that comprises the paddles.
   int energyNumber = 100;
 
@@ -78,52 +78,52 @@ class Paddle {
     noStroke();
     if (fadeDepression == true) {
       println(fillAlpha);
-    fillAlpha--;
-    paddleColor = color(fillRed, fillGreen, fillBlue, fillAlpha);
+      fillAlpha--;
+      paddleColor = color(fillRed, fillGreen, fillBlue, fillAlpha);
     }
     fill(paddleColor);
     rectMode(CENTER);
     // Draw the paddle as a lot of tiny rectangles, basically 'static'.
-    
-     for (int i = 0; i < energyNumber; i++) {
-      rect(x + floor(random(-WIDTH/2,WIDTH/2)),y + floor(random(-HEIGHT/2,HEIGHT/2)),2,2);
+
+    for (int i = 0; i < energyNumber; i++) {
+      rect(x + floor(random(-WIDTH/2, WIDTH/2)), y + floor(random(-HEIGHT/2, HEIGHT/2)), 2, 2);
     }
   }
 
 
-// fadeColor()
-//
-// Fades the color slowly to make the paddle harder to see.
+  // fadeColor()
+  //
+  // Fades the color slowly to make the paddle harder to see.
 
-// keyPressed()
-//
-// Called when keyPressed is called in the main program
+  // keyPressed()
+  //
+  // Called when keyPressed is called in the main program
 
-void keyPressed() {
-  // Check if the key is our up key
-  if (key == upKey) {
-    // If so we want a negative y velocity
-    vy = -SPEED;
-  } // Otherwise check if the key is our down key 
-  else if (key == downKey) {
-    // If so we want a positive y velocity
-    vy = SPEED;
+  void keyPressed() {
+    // Check if the key is our up key
+    if (key == upKey) {
+      // If so we want a negative y velocity
+      vy = -SPEED;
+    } // Otherwise check if the key is our down key 
+    else if (key == downKey) {
+      // If so we want a positive y velocity
+      vy = SPEED;
+    }
+  }
+
+  // keyReleased()
+  //
+  // Called when keyReleased is called in the main program
+
+  void keyReleased() {
+    // Check if the key is our up key and the paddle is moving up
+    if (key == upKey && vy < 0) {
+      // If so it should stop
+      vy = 0;
+    } // Otherwise check if the key is our down key and paddle is moving down 
+    else if (key == downKey && vy > 0) {
+      // If so it should stop
+      vy = 0;
+    }
   }
 }
-
-// keyReleased()
-//
-// Called when keyReleased is called in the main program
-
-void keyReleased() {
-  // Check if the key is our up key and the paddle is moving up
-  if (key == upKey && vy < 0) {
-    // If so it should stop
-    vy = 0;
-  } // Otherwise check if the key is our down key and paddle is moving down 
-  else if (key == downKey && vy > 0) {
-    // If so it should stop
-    vy = 0;
-  }
-  }
-  }

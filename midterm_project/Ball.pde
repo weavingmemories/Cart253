@@ -4,9 +4,9 @@
 // of the top and bottom, and can detect collision with a paddle and bounce off that.
 
 class Ball {
-  
+
   // Booleans //
-  
+
   boolean touchPaddle;
 
   /////////////// Properties ///////////////
@@ -25,7 +25,7 @@ class Ball {
 
   // The image that represents the ball
 
- PImage image;
+  PImage image;
 
   /////////////// Constructor ///////////////
 
@@ -59,27 +59,26 @@ class Ball {
     // First update the location based on the velocity (so the ball moves)
     x += vx;
     y += vy;
-
     // Check if the ball is going off the top of bottom
     if (y - image.width/2 < 0 || y + image.width/2 > height) {
       // If it is, then make it "bounce" by reversing its velocity
       vy = -vy;
     }
   }
-  
+
   // reset()
   //
   // Resets the ball to the centre of the screen.
   // CHANGED: Made the velocity opposite when it resets the ball,
   // giving the opposite player a chance to hit the ball if one player misses.
-  
+
   void reset() {
     x = width/2;
     y = height/2;
     vx = -vx;
     vy = -vy;
   }
-  
+
   // isOffScreen()
   //
   // Returns true if the ball is off the left or right side of the window
@@ -87,7 +86,7 @@ class Ball {
   // (If we wanted to return WHICH side it had gone off, we'd have to return
   // something like an int (e.g. 0 = not off, 1 = off left, 2 = off right)
   // or a String (e.g. "ON SCREEN", "OFF LEFT", "OFF RIGHT")
-  
+
   boolean isOffScreen() {
     return (x + image.width/2 < 0 || x - image.width/2 > width);
   }
@@ -104,7 +103,7 @@ class Ball {
     boolean insideRight = (x - image.width/2 < paddle.x + paddle.WIDTH/2);
     boolean insideTop = (y + image.width/2 > paddle.y - paddle.HEIGHT/2);
     boolean insideBottom = (y - image.width/2 < paddle.y + paddle.HEIGHT/2);
-    
+
     // Check if the ball overlaps with the paddle
     if (insideLeft && insideRight && insideTop && insideBottom) {
       touchPaddle = true;
@@ -112,29 +111,25 @@ class Ball {
       if (vx < 0) {
         // Reset its position to align with the right side of the paddle
         x = paddle.x + paddle.WIDTH/2 + image.width/2;
-        
       } else if (vx > 0) {
         // Reset its position to align with the left side of the paddle
         x = paddle.x - paddle.WIDTH/2 - image.width/2;
       }
       // And make it bounce
-      vx = -vx+floor(random(3));
+      vx = -vx;
     } else {
       touchPaddle = false;
     }
   }
-  
-  
 
   // display()
   //
-  // Draw the ball at its position
+  // Draw the ball at its posion
 
   void display() {
     // Set up the appearance of the ball (no stroke, a fill, and rectMode as CENTER)
-    
+
     imageMode(CENTER);
-    image(image,x,y,image.width,image.width);
-    
+    image(image, x, y, image.width, image.width);
   }
 }

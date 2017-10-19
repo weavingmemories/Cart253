@@ -77,17 +77,17 @@ void draw() {
       background(0);
       textAlign(CENTER);
       fill(255);
-      textSize(random(2, 30));
-      text("", random(width/2-100, width/2+100), random(height/2-100, height/2+100));
+      textSize(25);
+      text("Depression:\nIt won’t always be this bad. \nIt will get better. \nOur minds are not always our friends.\nYou are stronger than you think.", width/2, height/2);
     }
 
     // If anxiety wins,
-    if (anxietyScore == 15) {
+    else if (anxietyScore == 15) {
       background(0);
       textAlign(CENTER);
       fill(255);
-      textSize(random(2, 30));
-      text("", random(width/2-100, width/2+100), random(height/2-100, height/2+100));
+      textSize(25);
+      text("Anxiety:\nThese are just thoughts - not reality.\nSometimes, our brains work against us.\nYou are stronger than you think.", width/2, height/2);
     }
   }
 
@@ -103,7 +103,7 @@ void draw() {
     leftPaddle.update();
     rightPaddle.update();
 
-    // This keeps both paddles at a distance from each other and
+    // This keeps both right paddles at a distance from each other and
     // stops them from overlapping on each other.
     if (rightPaddle.y >= height/2) {
       rightPaddle2.y = rightPaddle.y - 200;

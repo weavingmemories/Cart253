@@ -64,7 +64,7 @@ class TextArray {
   void anxietyDisplay() {
     textAlign(CENTER);
     fill(random(255));
-    textSize(random(2,30));
+    textSize(random(15, 30));
     text(anxietyText[numberToCallAnxText], random(width/2-100, width/2+100), random(height/2-textMargin, height/2+textMargin));
     numberToCallAnxText = floor(random(anxietyText.length));
   }
