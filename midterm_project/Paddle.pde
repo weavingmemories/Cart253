@@ -29,6 +29,9 @@ class Paddle {
   // The characters used to make the paddle move up and down, defined in constructor
   char upKey;
   char downKey;
+  
+  // This variable tracks the amount of 'static' that comprises the paddles.
+  int energyNumber = 100;
 
 
   /////////////// Constructor ///////////////
@@ -82,7 +85,7 @@ class Paddle {
     rectMode(CENTER);
     // Draw the paddle as a lot of tiny rectangles, basically 'static'.
     
-     for (int i = 0; i < 100; i++) {
+     for (int i = 0; i < energyNumber; i++) {
       rect(x + floor(random(-WIDTH/2,WIDTH/2)),y + floor(random(-HEIGHT/2,HEIGHT/2)),2,2);
     }
   }

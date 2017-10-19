@@ -74,10 +74,20 @@ void draw() {
 
     // If depression wins, 
     if (depressionScore == 15) {
+      background(0);
+      textAlign(CENTER);
+      fill(255);
+      textSize(random(2, 30));
+      text("", random(width/2-100, width/2+100), random(height/2-100, height/2+100));
     }
 
     // If anxiety wins,
     if (anxietyScore == 15) {
+      background(0);
+      textAlign(CENTER);
+      fill(255);
+      textSize(random(2, 30));
+      text("", random(width/2-100, width/2+100), random(height/2-100, height/2+100));
     }
   }
 
@@ -92,16 +102,16 @@ void draw() {
     // Update the paddles and ball by calling their update methods
     leftPaddle.update();
     rightPaddle.update();
-    
+
     // This keeps both paddles at a distance from each other and
     // stops them from overlapping on each other.
     if (rightPaddle.y >= height/2) {
-    rightPaddle2.y = rightPaddle.y - 200;
+      rightPaddle2.y = rightPaddle.y - 200;
     }
     if (rightPaddle.y <= height/2) {
       rightPaddle2.y = rightPaddle.y + 200;
     }
-    
+
     rightPaddle2.update();
     println(rightPaddle2.y);
     ball.update();
@@ -116,7 +126,7 @@ void draw() {
     if (ball.touchPaddle == true) {
       anxietyScore += 1;
     }
-    
+
     ball.collide(rightPaddle2);
     if (ball.touchPaddle == true) {
       anxietyScore += 1;
@@ -169,12 +179,19 @@ void checkScore() {
   // If depression is winning, the framerate slows slightly- and text pops up
   if (depressionScore > anxietyScore) {
     frameRate(40);
+    leftPaddle.energyNumber = 50;
+    rightPaddle.energyNumber = 50;
+    rightPaddle2.energyNumber = 50;
     depressionText.depressionDisplay();
-  }
 
-  //
-  if (depressionScore > 5) {
-    frameRate(20);
+    if (depressionScore > 5) {
+      frameRate(20);
+      leftPaddle.energyNumber = 25;
+      rightPaddle.energyNumber = 25;
+      rightPaddle2.energyNumber = 25;
+    }
+
+    //
   }
 
   if (depressionScore > 13) {
@@ -183,8 +200,15 @@ void checkScore() {
 
   if (anxietyScore > depressionScore) {
     drawStatic(500, 1, 3, floor(random(0, 200)));
+    leftPaddle.energyNumber = 100;
+    rightPaddle.energyNumber = 100;
+    rightPaddle2.energyNumber = 100;
     anxietyText.anxietyDisplay();
+    frameRate(60);
     if (anxietyScore > 5) {
+      leftPaddle.energyNumber = 150;
+      rightPaddle.energyNumber = 150;
+      rightPaddle2.energyNumber = 150;
       drawStatic(250, 5, 15, 200);
     }
   }
