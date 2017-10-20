@@ -21,6 +21,7 @@ void setup() {
   frameRate(10);
 
   // QUESTION: What does this for loop do?
+  // This for loop initializes and creates the Griddies in the first place, making sure the amount never goes over the maximum array length for the Griddies (100).
   for (int i = 0; i < griddies.length; i++) {
     int x = floor(random(0, width/gridSize));
     int y = floor(random(0, height/gridSize));
@@ -44,8 +45,10 @@ void draw() {
     // Now go through all the griddies a second time...
     for (int j = 0; j < griddies.length; j++) {
       // QUESTION: What is this if-statement for?
+      // This if statement checks whether the griddies have collided by checking if the j in the loop is the opposite of the already stated i.
       if (j != i) {
         // QUESTION: What does this line check?
+        // This line checks if the griddies being checked in the loop are colliding with the ones being checked a second time.
         griddies[i].collide(griddies[j]);
       }
     }
