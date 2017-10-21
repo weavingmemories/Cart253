@@ -10,6 +10,7 @@
 int gridSize = 20;
 // An array storing all the griddies
 Griddie[] griddies = new Griddie[100];
+Lipso[] lipsos = new Lipso[100];
 
 // setup()
 //
@@ -26,6 +27,12 @@ void setup() {
     int x = floor(random(0, width/gridSize));
     int y = floor(random(0, height/gridSize));
     griddies[i] = new Griddie(x * gridSize, y * gridSize, gridSize);
+  }
+
+  for (int i = 0; i < lipsos.length; i++) {
+    int x = floor(random(0, width/gridSize));
+    int y = floor(random(0, height/gridSize));
+    lipsos[i] = new Lipso(x * gridSize, y * gridSize, gridSize);
   }
 }
 
@@ -52,8 +59,33 @@ void draw() {
         griddies[i].collide(griddies[j]);
       }
     }
-    
+
     // Display the griddies
     griddies[i].display();
+  }
+  for (int i = 0; i < lipsos.length; i++) {
+
+    // Update the lipsos
+    lipsos[i].update();
+
+    // Now go through all the lipsos a second time...
+    for (int j = 0; j < lipsos.length; j++) {
+      // This if statement checks whether the lipsos have collided by checking if the j in the loop is the opposite of the already stated i.
+      if (j != i) {
+        // This line checks if the griddies being checked in the loop are colliding with the ones being checked a second time.
+        lipsos[i].collide(griddies[j]);
+      }
+      for (int k = 0; k < lipsos.length; k++) {
+        // This if statement checks whether the lipsos have collided by checking if the j in the loop is the opposite of the already stated i.
+        if (k != i) {
+          // This line checks if the griddies being checked in the loop are colliding with the ones being checked a second time.
+          lipsos[i].collide(lipsos[k]);
+        }
+      }
+
+      // Display the griddies
+      lipsos[i].display();
+      
+    }
   }
 }
