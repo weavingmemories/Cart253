@@ -8,6 +8,7 @@ int y = 0;
 int randomRed = 50;
 int randomGreen = 50;
 int randomBlue = 50;
+boolean isMousePressed = false;
 
 void setup() {
   size(640, 480, P3D);
@@ -15,7 +16,16 @@ void setup() {
 void draw() {
   background(0);
   pushMatrix();
-    
+    if (isMousePressed == true) {
+      WIDTH++;
+      HEIGHT++;
+      DEPTH++;
+    }
+    if (isMousePressed == false) {
+      WIDTH--;
+      HEIGHT--;
+      DEPTH--;
+    }
 spotLight(randomRed, randomGreen, randomBlue, mouseX/2, mouseY/2, 0, mouseX*2, mouseY*2, 0, 90, 2);
 
   translate(width/2, height/2, 0);
@@ -33,15 +43,11 @@ spotLight(randomRed, randomGreen, randomBlue, mouseX/2, mouseY/2, 0, mouseX*2, m
 }
 
 void mousePressed() {
-  WIDTH+=100;
-  HEIGHT+=100;
-  DEPTH+=100;
+isMousePressed = true;
 }
 
 void mouseReleased() {
-  WIDTH-=100;
-  HEIGHT-=100;
-  DEPTH-=100;
+  isMousePressed = false;
 }
 
 void pickNewColor() {
