@@ -8,7 +8,9 @@ class Bouncer {
 
   float tx = random(0, 100);
   float ty = random(0, 100);
+  float easing = 0.05;
   float speed = 10;
+
 
   // Variables for position
   float x;
@@ -84,7 +86,13 @@ class Bouncer {
   void display() {
     noStroke();
     fill(fillColor);
-
+float targetX = brightestPixelX;
+  float dx = targetX - x;
+  x += dx * easing;
+  
+  float targetY = brightestPixelY;
+  float dy = targetY - y;
+  y += dy * easing;
     ellipse(x, y, size, size);
     tx += 0.01;
     ty += 0.01;

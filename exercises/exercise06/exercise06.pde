@@ -11,7 +11,11 @@ Capture video;
 // A PVector allows us to store an x and y location in a single object
 // When we create it we give it the starting x and y (which I'm setting to -1, -1
 // as a default value)
-PVector brightestPixel = new PVector(-1,-1);
+float brightestPixelX;
+float brightestPixelY;
+
+//
+
 
 // An array of bouncers to play with
 Bouncer[] bouncers = new Bouncer[10];
@@ -61,7 +65,7 @@ void draw() {
   fill(#ff0000);
   stroke(#ffff00);
   strokeWeight(10);
-  ellipse(brightestPixel.x,brightestPixel.y,20,20);
+  ellipse(brightestPixelX,brightestPixelY,20,20);
 }
 
 // handleVideoInput
@@ -100,8 +104,8 @@ void handleVideoInput() {
         // Remember where this pixel is in the the grid of pixels
         // (and therefore on the screen) by setting the PVector
         // brightestPixel's x and y properties.
-        brightestPixel.x = x;
-        brightestPixel.y = y;
+        brightestPixelX = x;
+        brightestPixelY = y;
       }
     }
   }
