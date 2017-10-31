@@ -14,7 +14,9 @@ Capture video;
 float brightestPixelX;
 float brightestPixelY;
 
-//
+// The image for the mosquito
+
+PImage mosquito;
 
 
 // An array of bouncers to play with
@@ -26,12 +28,12 @@ Bouncer[] bouncers = new Bouncer[10];
 
 void setup() {
   size(640, 480);
-
+  
   // Our old friend the for-loop used to go through the length of an
   // array adding new objects to it (Bouncers in this case)
   for (int i = 0; i < bouncers.length; i++) {
     // Each Bouncer just starts with random values 
-    bouncers[i] = new Bouncer(random(0,width),random(0,height),random(-10,10),random(-10,10),random(20,50),color(random(255)));
+    bouncers[i] = new Bouncer(random(0,width),random(0,height),random(-10,10),random(-10,10),random(20,50));
   }
   
   // Start up the webcam
@@ -61,11 +63,7 @@ void draw() {
    bouncers[i].display();
   }
   
-  // For now we just draw a crappy ellipse at the brightest pixel
-  fill(#ff0000);
-  stroke(#ffff00);
-  strokeWeight(10);
-  ellipse(brightestPixelX,brightestPixelY,20,20);
+  // CHANGED: Removed ellipse at the brightest pixel to make the location of it telltale by the mosquitos.
 }
 
 // handleVideoInput

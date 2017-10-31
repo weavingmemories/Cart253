@@ -3,8 +3,13 @@
 // A class that defines a circle that can bounce around on the screen
 // at a specific velocity.
 // CHANGED: Added noise function to the movement so the bouncers move like little creatures.
+// CHANGED: Also added ease function to the movement so the bouncers move towards the brightest pixel.
 
 class Bouncer {
+  
+  // The image loaded for the Mosquito
+  
+
 
   float tx = random(0, 100);
   float ty = random(0, 100);
@@ -33,14 +38,14 @@ class Bouncer {
   //
   // Creates a Bouncer with the provided values by remembering them.
 
-  Bouncer(float tempX, float tempY, float tempVX, float tempVY, float tempSize, color tempDefaultColor) {
+  Bouncer(float tempX, float tempY, float tempVX, float tempVY, float tempSize) {
     x = tempX;
     y = tempY;
     vx = tempVX;
     vy = tempVY;
     size = tempSize;
-    defaultColor = tempDefaultColor;
-    fillColor = defaultColor;
+    mosquito = loadImage("mosquito.gif");
+    
   }
 
   // update()
@@ -93,7 +98,7 @@ float targetX = brightestPixelX;
   float targetY = brightestPixelY;
   float dy = targetY - y;
   y += dy * easing;
-    ellipse(x, y, size, size);
+    image(mosquito, x, y, size, size);
     tx += 0.01;
     ty += 0.01;
   }
